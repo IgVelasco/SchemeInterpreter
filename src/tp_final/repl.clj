@@ -552,8 +552,8 @@ con comillas) y devuelve su valor. Muestra errores sin parentesis."
 
 (defn read-console [input]
 "Reads one console input and joins the previous one send by parameter."
+
     (let [new-input (str input " " (read-line))]
-        (println new-input)
         (cond 
             (< 0 (verificar-parentesis new-input)) (read-console new-input)
             :else new-input
@@ -566,7 +566,13 @@ con comillas) y devuelve su valor. Muestra errores sin parentesis."
     "Lee una cadena desde la terminal/consola. Si los parentesis no estan correctamente balanceados al presionar Enter/Intro,
     se considera que la cadena ingresada es una subcadena y el ingreso continua. De lo contrario, se la devuelve completa."
     []
-    (read-console "")
+    (let [input (read-line)]
+      (cond (= 1 (verificar-parentesis input))
+        (read-console input)
+        :else input
+      )
+      
+    )
 )
 
 ; user=> (verificar-parentesis "(hola 'mundo")
