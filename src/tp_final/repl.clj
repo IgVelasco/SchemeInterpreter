@@ -643,6 +643,8 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; true
 (defn error?
 "Devuelve true o false, segun sea o no el arg. una lista con `;ERROR:` o `;WARNING:` como primer elemento."
+[var]
+ (or (= (first var) (symbol ";WARNING:")) (= (first var) (symbol ";ERROR:")))
 )
 
 ; user=> (proteger-bool-en-str "(or #F #f #t #T)")
