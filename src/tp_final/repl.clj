@@ -551,7 +551,7 @@ con comillas) y devuelve su valor. Muestra errores sin parentesis."
 
 
 (defn read-console [input]
-"Reads one console input and joins the previous one send by parameter."
+"Aux for leer-entrada"
 
     (let [new-input (str input " " (read-line))]
         (cond 
@@ -587,7 +587,9 @@ con comillas) y devuelve su valor. Muestra errores sin parentesis."
 ; 0
 
 
-(defn count-parenthesis [sum x]
+(defn count-parenthesis 
+  "Aux for verificar-parentesis"
+  [sum x]
 
     (cond 
       (neg? sum) (reduced -1)
