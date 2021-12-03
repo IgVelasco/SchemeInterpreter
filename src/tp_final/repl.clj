@@ -722,6 +722,11 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; (;ERROR: append: Wrong type in arg A)
 (defn fnc-append
 "Devuelve el resultado de fusionar listas."
+[item-list]
+  (cond
+    (reduce not-all-list? item-list) ()
+    :else (reduce concat item-list)
+  )
 )
 
 ; user=> (fnc-equal? ())
