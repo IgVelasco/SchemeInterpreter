@@ -671,6 +671,21 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 [unsafe-str]
   (proteger-bool-en-str-lowercase (proteger-bool-en-str-uppercase unsafe-str) )
 )
+
+
+
+
+
+(defn restaurar-bool-str-lowercase
+  "Aux for restaurar-bool"
+  [unsafe-str]
+    (clojure.string/replace (clojure.string/replace unsafe-str #"%t" "#t") #"%f" "#f")
+)
+
+(defn restaurar-bool-str-uppercase
+  "Aux for restaurar-bool"
+  [unsafe-str]
+    (clojure.string/replace (clojure.string/replace unsafe-str #"%T" "#T") #"%F" "#F")
 )
 
 ; user=> (restaurar-bool (read-string (proteger-bool-en-str "(and (or #F #f #t #T) #T)")))
@@ -679,6 +694,8 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; (and (or #F #f #t #T) #T)
 (defn restaurar-bool
 "Cambia, en un codigo leido con read-string, %t por #t y %f por #f (y sus respectivas versiones en mayusculas)."
+[safe-str]
+  (symbol (restaurar-bool-str-lowercase (restaurar-bool-str-uppercase safe-str) ))
 )
 
 ; user=> (igual? 'if 'IF)
