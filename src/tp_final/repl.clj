@@ -710,6 +710,8 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; false
 (defn igual?
 "Verifica la igualdad entre dos elementos al estilo de Scheme (case-insensitive)"
+[el1 el2]
+  (and (= (clojure.string/upper-case el1) (clojure.string/upper-case el2)) (= (type el1) (type el2)))
 )
 
 ; user=> (fnc-append '( (1 2) (3) (4 5) (6 7)))
