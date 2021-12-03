@@ -777,6 +777,12 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; (;ERROR: Wrong number of args given #<primitive-procedure read>)
 (defn fnc-read
 "Devuelve la lectura de un elemento de Scheme desde la terminal/consola."
+  [x]
+  (cond
+    (empty? x) (symbol (leer-entrada))
+    (= 1 (count x)) (symbol ";ERROR: read: Use of I/O ports not implemented")
+    :else (symbol "(;ERROR: Wrong number of args given #<primitive-procedure read>)")
+  )
 )
 
 ; user=> (fnc-sumar ())
