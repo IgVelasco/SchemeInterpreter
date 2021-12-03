@@ -628,6 +628,11 @@ Si el valor es un error, el ambiente no se modifica. De lo contrario, se le carg
 (defn buscar
 "Busca una clave en un ambiente (una lista con claves en las posiciones impares [1, 3, 5...] y valores en las pares [2, 4, 6...]
 y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encuentra."
+[item-to-find items]
+  (cond (= item-to-find (first items)) (second items)
+    (empty? items)(symbol "(;ERROR: unbound variable: f)")
+    :else (buscar item-to-find (rest (rest items)))
+  )
 )
 
 ; user=> (error? (list (symbol ";ERROR:") 'mal 'hecho))
