@@ -606,8 +606,7 @@ con comillas) y devuelve su valor. Muestra errores sin parentesis."
     (reduce count-parenthesis 0  (clojure.string/split input #""))
 )
 
-(verificar-parentesis "(hola 'mundo")
-
+;; DUDA que pasa cuando no esta?
 ; user=> (actualizar-amb '(a 1 b 2 c 3) 'd 4)
 ; (a 1 b 2 c 3 d 4)
 ; user=> (actualizar-amb '(a 1 b 2 c 3) 'b 4)
