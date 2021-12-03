@@ -647,6 +647,19 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
  (or (= (first var) (symbol ";WARNING:")) (= (first var) (symbol ";ERROR:")))
 )
 
+
+(defn proteger-bool-en-str-lowercase
+  "Aux for proteger-bool-en-str"
+  [unsafe-str]
+    (clojure.string/replace (clojure.string/replace unsafe-str #"#t" "%t") #"#f" "%f")
+)
+
+(defn proteger-bool-en-str-uppercase
+  "Aux for proteger-bool-en-str"
+  [unsafe-str]
+    (clojure.string/replace (clojure.string/replace unsafe-str #"#T" "%T") #"#F" "%F")
+)
+  
 ; user=> (proteger-bool-en-str "(or #F #f #t #T)")
 ; "(or %F %f %t %T)"
 ; user=> (proteger-bool-en-str "(and (or #F #f #t #T) #T)")
@@ -655,6 +668,9 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; ""
 (defn proteger-bool-en-str
 "Cambia, en una cadena, #t por %t y #f por %f (y sus respectivas versiones en mayusculas), para poder aplicarle read-string."
+[unsafe-str]
+  (proteger-bool-en-str-lowercase (proteger-bool-en-str-uppercase unsafe-str) )
+)
 )
 
 ; user=> (restaurar-bool (read-string (proteger-bool-en-str "(and (or #F #f #t #T) #T)")))
