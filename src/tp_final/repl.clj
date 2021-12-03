@@ -539,9 +539,34 @@ con comillas) y devuelve su valor. Muestra errores sin parentesis."
 ; user=> (leer-entrada)
 ; 123
 ; "123"
+
+;; (defn read-console [input]
+;; "Reads one console input and joins the previous one send by parameter."
+;;     (let [new-input (read-line)]
+;;         (str input new-input)
+;;     )
+;; )
+
+
+
+
+(defn read-console [input]
+"Reads one console input and joins the previous one send by parameter."
+    (let [new-input (str input " " (read-line))]
+        (println new-input)
+        (cond 
+            (< 0 (verificar-parentesis new-input)) (read-console new-input)
+            :else new-input
+        )
+    )
+)
+
+
 (defn leer-entrada
-"Lee una cadena desde la terminal/consola. Si los parentesis no estan correctamente balanceados al presionar Enter/Intro,
-se considera que la cadena ingresada es una subcadena y el ingreso continua. De lo contrario, se la devuelve completa."
+    "Lee una cadena desde la terminal/consola. Si los parentesis no estan correctamente balanceados al presionar Enter/Intro,
+    se considera que la cadena ingresada es una subcadena y el ingreso continua. De lo contrario, se la devuelve completa."
+    []
+    (read-console "")
 )
 
 ; user=> (verificar-parentesis "(hola 'mundo")
@@ -573,7 +598,7 @@ se considera que la cadena ingresada es una subcadena y el ingreso continua. De 
     (reduce count-parenthesis 0  (clojure.string/split input #""))
 )
 
-(verificar-parentesis "(hola '(mundo) )")
+(verificar-parentesis "(hola 'mundo")
 
 ; user=> (actualizar-amb '(a 1 b 2 c 3) 'd 4)
 ; (a 1 b 2 c 3 d 4)
