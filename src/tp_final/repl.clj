@@ -729,6 +729,16 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
   )
 )
 
+
+(defn rec-igual? 
+  "Aux for fnc-equal"
+  [item1 item2]
+  (cond 
+    (empty? item2) (symbol "#t")
+    (igual? item1 (first item2)) (red-igual? item1 (rest item2))
+    :else (symbol "#f")
+  )
+)
 ; user=> (fnc-equal? ())
 ; #t
 ; user=> (fnc-equal? '(A))
@@ -747,6 +757,12 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; #f
 (defn fnc-equal?
 "Compara elementos. Si son iguales, devuelve #t. Si no, #f."
+[item-list]
+  (cond 
+    (> 2 (count item-list)) (symbol "#t")
+    :else  (rec-igual? (first item-list) (rest item-list))
+  
+  )
 )
 
 ; user=> (fnc-read ())
