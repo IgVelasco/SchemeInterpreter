@@ -847,6 +847,20 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
   )
 )
 
+
+
+
+(defn rec-comp
+  "Aux for fnc-equal"
+  [item1 item2 func]
+  (cond 
+    (empty? item2) (symbol "#t")
+    (func item1 (first item2)) (rec-comp  (first item2) (rest item2) func)
+    :else (symbol "#f")
+  )
+)
+
+;; TODO: no entiendo el error
 ; user=> (fnc-menor ())
 ; #t
 ; user=> (fnc-menor '(1))
@@ -869,6 +883,12 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; (;ERROR: <: Wrong type in arg2 A)
 (defn fnc-menor
 "Devuelve #t si los numeros de una lista estan en orden estrictamente creciente; si no, #f."
+[item-list]
+  (cond 
+    (> 2 (count item-list)) (symbol "#t")
+    :else  (rec-comp (first item-list) (rest item-list) <)
+  
+  )
 )
 
 ; user=> (fnc-mayor ())
