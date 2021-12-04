@@ -891,6 +891,7 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
   )
 )
 
+;; TODO: no entiendo el error
 ; user=> (fnc-mayor ())
 ; #t
 ; user=> (fnc-mayor '(1))
@@ -913,6 +914,12 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; (;ERROR: >: Wrong type in arg2 A)
 (defn fnc-mayor
 "Devuelve #t si los numeros de una lista estan en orden estrictamente decreciente; si no, #f."
+[item-list]
+  (cond 
+    (> 2 (count item-list)) (symbol "#t")
+    :else  (rec-comp (first item-list) (rest item-list) >)
+  
+  )
 )
 
 ; user=> (fnc-mayor-o-igual ())
