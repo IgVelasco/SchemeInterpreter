@@ -965,6 +965,11 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; ((;ERROR: unbound variable: n) (x 6 y 11 z "hola"))
 (defn evaluar-escalar
 "Evalua una expresion escalar. Devuelve una lista con el resultado y un ambiente."
+[key env]
+    (cond 
+      (symbol? key) (list (buscar key env) env)
+      :else (list key env)
+    )
 )
 
 ; user=> (evaluar-define '(define x 2) '(x 1))
