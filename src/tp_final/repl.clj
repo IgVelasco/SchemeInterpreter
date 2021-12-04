@@ -820,6 +820,7 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
   (rec 0 item-list +)
 )
 
+;; TODO: no entiendo el error
 ; user=> (fnc-restar ())
 ; (;ERROR: -: Wrong number of args given)
 ; user=> (fnc-restar '(3))
@@ -838,6 +839,12 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; (;ERROR: -: Wrong type in arg2 A)
 (defn fnc-restar
 "Resta los elementos de un lista."
+[item-list]
+  (cond
+    (= 0 (count item-list)) (symbol "(;ERROR: -: Wrong number of args given)")
+    (= 1 (count item-list)) (rec 0 item-list -)
+    :else (rec (first item-list) (rest item-list) -)
+  )
 )
 
 ; user=> (fnc-menor ())
