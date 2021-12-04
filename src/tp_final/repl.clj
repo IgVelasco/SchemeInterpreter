@@ -784,6 +784,20 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
   )
 )
 
+
+
+
+(defn rec-operations
+  "Aux for fnc-equal"
+  [item1 item2 func]
+  (cond 
+    (empty? item2) item1
+    (number? (first item2)) (rec (func item1 (first item2)) (rest item2) func)
+    :else (symbol "#f")
+  )
+)
+
+;; TODO: no entiendo el error
 ; user=> (fnc-sumar ())
 ; 0
 ; user=> (fnc-sumar '(3))
@@ -802,6 +816,8 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 ; (;ERROR: +: Wrong type in arg2 A)
 (defn fnc-sumar
 "Suma los elementos de una lista."
+[item-list]
+  (rec 0 item-list +)
 )
 
 ; user=> (fnc-restar ())
