@@ -80,13 +80,6 @@
       (is false)
     )
   )
-  
-  
-  (deftest fnc-arith-test
-    (testing "fnc-arith TODO."
-      (is false)
-    )
-  )
 
   
   (deftest evaluar-escalar-test
@@ -105,6 +98,20 @@
       (is (= '(a 1 b 4 c 3) (actualizar-amb '(a 1 b 2 c 3) 'b 4)))
       (is (= '(a 1 b 2 c 3) (actualizar-amb '(a 1 b 2 c 3) 'b (list (symbol ";ERROR:") 'mal 'hecho))))
       (is (= '(b 7) (actualizar-amb () 'b 7)))
+    )
+  )
+  
+  
+  (deftest fnc-sumar-test
+    (testing "fnc-sumar test BROKEN."
+      (is (= 0 (fnc-sumar ())))
+      (is (= 3 (fnc-sumar '(3))))
+      (is (= 7 (fnc-sumar '(3 4))))
+      (is (= 12 (fnc-sumar '(3 4 5))))
+      (is (= 18 (fnc-sumar '(3 4 5 6))))
+      (is (= (str (symbol "(;ERROR: +: Wrong type in arg1 A)")) (str (fnc-sumar '(A 4 5 6)))))
+      (is (= (str (symbol "(;ERROR: +: Wrong type in arg2 A)")) (str (fnc-sumar '(3 A 5 6)))))
+      (is (= (str (symbol "(;ERROR: +: Wrong type in arg2 A)")) (str (fnc-sumar '(3 4 A 6)))))
     )
   )
 

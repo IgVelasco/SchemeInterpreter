@@ -863,10 +863,11 @@
   
   (defn rec-operations
     "Aux for fnc-equal"
-    [item1 item2 func]
+    [item1 item2 func func-symbol]
     (cond 
       (empty? item2) item1
-      (number? (first item2)) (rec-operations (func item1 (first item2)) (rest item2) func)
+      (not (number? (first item2)))(symbol (str (symbol "(;ERROR: ") func-symbol ": Wrong type in arg2 " (first item2) ")"))
+      (number? (first item2)) (rec-operations (func item1 (first item2)) (rest item2) func func-symbol)
       :else (symbol "#f")
     )
   )
@@ -892,7 +893,11 @@
   (defn fnc-sumar
   "Suma los elementos de una lista."
   [item-list]
-    (rec-operations 0 item-list +)
+    (cond
+      (empty? item-list) 0
+      (not (number? (first item-list))) (symbol (str (symbol "(;ERROR: +: Wrong type in arg1 ") (first item-list) ")"))
+      :else (rec-operations 0 item-list + '+)
+      )
   )
   
   ;; TODO: no entiendo el error
