@@ -131,7 +131,7 @@
   
   
   (deftest fnc-menor-test
-    (testing "fnc-restar test BROKEN."
+    (testing "fnc-menor test BROKEN."
       (is (= (symbol "#t") (fnc-menor '())))
       (is (= (symbol "#t") (fnc-menor '(1))))
       (is (= (symbol "#t") (fnc-menor '(1 2))))
@@ -162,4 +162,19 @@
   )
   
   
+  
+  (deftest fnc-mayor-o-igual-test
+    (testing "fnc-mayor-o-igual test BROKEN."
+      (is (= (symbol "#t") (fnc-mayor-o-igual '())))
+      (is (= (symbol "#t") (fnc-mayor-o-igual '(1))))
+      (is (= (symbol "#t") (fnc-mayor-o-igual '(2 1))))
+      (is (= (symbol "#t") (fnc-mayor-o-igual '(3 2 1))))
+      (is (= (symbol "#t") (fnc-mayor-o-igual '(4 3 2 1))))
+      (is (= (symbol "#t") (fnc-mayor-o-igual '(4 2 2 1))))
+      (is (= (symbol "#f") (fnc-mayor-o-igual '(4 2 1 4))))
+      (is (= (str (symbol "(;ERROR: >=: Wrong type in arg1 A)")) (str (fnc-mayor-o-igual '(A 3 2 1)))))
+      (is (= (str (symbol "(;ERROR: >=: Wrong type in arg2 A)")) (str (fnc-mayor-o-igual '(3 A 2 1)))))
+      (is (= (str (symbol "(;ERROR: >=: Wrong type in arg2 A)")) (str (fnc-mayor-o-igual '(3 2 A 1)))))
+    )
+  )
 

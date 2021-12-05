@@ -697,8 +697,8 @@
   ; user=> (error? (list (symbol ";WARNING:") 'mal 'hecho))
   ; true
   (defn error?
-  "Devuelve true o false, segun sea o no el arg. una lista con `;ERROR:` o `;WARNING:` como primer elemento."
-  [var]
+    "Devuelve true o false, segun sea o no el arg. una lista con `;ERROR:` o `;WARNING:` como primer elemento."
+    [var]
     (cond 
       (not (list? var)) false
       :else (or (= (first var) (symbol ";WARNING:")) (= (first var) (symbol ";ERROR:")))
@@ -885,7 +885,7 @@
   ; user=> (fnc-sumar '(3 4 5 6))
   ; 18
   ; user=> (fnc-sumar '(A 4 5 6))
-  ; (;ERROR: +: Wrong type in arg1 A)
+  ; (;ERROR: +: Wrong type in arg1 A)      
   ; user=> (fnc-sumar '(3 A 5 6))
   ; (;ERROR: +: Wrong type in arg2 A)
   ; user=> (fnc-sumar '(3 4 A 6))
@@ -1031,7 +1031,7 @@
   [item-list]
     (cond 
       (> 2 (count item-list)) (symbol "#t")
-      :else  (rec-comp (first item-list) (rest item-list) >=)
+      :else  (rec-comp (first item-list) (rest item-list) >= '>=)
     
     )
   )
