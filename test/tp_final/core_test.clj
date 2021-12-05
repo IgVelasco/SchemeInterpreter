@@ -144,4 +144,22 @@
       (is (= (str (symbol "(;ERROR: <: Wrong type in arg2 A)")) (str (fnc-menor '(1 2 A 4)))))
     )
   )
+  
+  
+  (deftest fnc-mayor-test
+    (testing "fnc-mayor test BROKEN."
+      (is (= (symbol "#t") (fnc-mayor '())))
+      (is (= (symbol "#t") (fnc-mayor '(1))))
+      (is (= (symbol "#t") (fnc-mayor '(2 1))))
+      (is (= (symbol "#t") (fnc-mayor '(3 2 1))))
+      (is (= (symbol "#t") (fnc-mayor '(4 3 2 1))))
+      (is (= (symbol "#f") (fnc-mayor '(4 2 2 1))))
+      (is (= (symbol "#f") (fnc-mayor '(4 2 1 4))))
+      (is (= (str (symbol "(;ERROR: >: Wrong type in arg1 A)")) (str (fnc-mayor '(A 3 2 1)))))
+      (is (= (str (symbol "(;ERROR: >: Wrong type in arg2 A)")) (str (fnc-mayor '(3 A 2 1)))))
+      (is (= (str (symbol "(;ERROR: >: Wrong type in arg2 A)")) (str (fnc-mayor '(3 2 A 1)))))
+    )
+  )
+  
+  
 

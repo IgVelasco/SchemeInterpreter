@@ -1000,7 +1000,7 @@
   [item-list]
     (cond 
       (> 2 (count item-list)) (symbol "#t")
-      :else  (rec-comp (first item-list) (rest item-list) >)
+      :else  (rec-comp (first item-list) (rest item-list) > '>)
     
     )
   )
