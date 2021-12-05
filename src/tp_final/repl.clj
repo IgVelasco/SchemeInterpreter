@@ -713,6 +713,19 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
   (and (= (clojure.string/upper-case el1) (clojure.string/upper-case el2)) (= (type el1) (type el2)))
 )
 
+
+
+(defn all-list?
+  "Busca una clave en un ambiente (una lista con claves en las posiciones impares [1, 3, 5...] y valores en las pares [2, 4, 6...]
+  y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encuentra."
+  [items]
+    (cond 
+      (empty? items) true
+      (not (list? (first items))) (symbol (str (symbol ";ERROR: -: Wrong type in arg ") (first items)))
+      :else (all-list? (rest items))
+    )
+)
+
 ; user=> (fnc-append '( (1 2) (3) (4 5) (6 7)))
 ; (1 2 3 4 5 6 7)
 ; user=> (fnc-append '( (1 2) 3 (4 5) (6 7)))
@@ -722,9 +735,11 @@ y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encue
 (defn fnc-append
 "Devuelve el resultado de fusionar listas."
 [item-list]
+  (let [res (all-list? item-list)]
   (cond
-    (reduce not-all-list? item-list) ()
-    :else (reduce concat item-list)
+      (= res true) (reduce concat item-list) 
+      :else res
+    )
   )
 )
 
