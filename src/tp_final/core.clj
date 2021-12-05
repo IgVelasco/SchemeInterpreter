@@ -922,8 +922,9 @@
   [item-list]
     (cond
       (= 0 (count item-list)) (symbol "(;ERROR: -: Wrong number of args given)")
-      (= 1 (count item-list)) (rec-operations 0 item-list -)
-      :else (rec-operations (first item-list) (rest item-list) -)
+      (not (number? (first item-list))) (symbol (str (symbol "(;ERROR: -: Wrong type in arg1 ") (first item-list) ")"))
+      (= 1 (count item-list)) (rec-operations 0 item-list - '-)
+      :else (rec-operations (first item-list) (rest item-list) - '-)
     )
   )
   

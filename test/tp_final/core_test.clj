@@ -115,3 +115,17 @@
     )
   )
 
+
+  (deftest fnc-restar-test
+    (testing "fnc-restar test BROKEN."
+      (is (= (str (symbol "(;ERROR: -: Wrong number of args given)")) (str (fnc-restar ()))))
+      (is (= -3 (fnc-restar '(3))))
+      (is (= -1 (fnc-restar '(3 4))))
+      (is (= -6 (fnc-restar '(3 4 5))))
+      (is (= -12 (fnc-restar '(3 4 5 6))))
+      (is (= (str (symbol "(;ERROR: -: Wrong type in arg1 A)")) (str (fnc-restar '(A 4 5 6)))))
+      (is (= (str (symbol "(;ERROR: -: Wrong type in arg2 A)")) (str (fnc-restar '(3 A 5 6)))))
+      (is (= (str (symbol "(;ERROR: -: Wrong type in arg2 A)")) (str (fnc-restar '(3 4 A 6)))))
+    )
+  )
+
