@@ -31,6 +31,7 @@
       (is (= true (error? (list (symbol ";ERROR:") 'mal 'hecho))))
       (is (= false (error? (list 'mal 'hecho))))
       (is (= true (error? (list (symbol ";WARNING:") 'mal 'hecho))))
+      (is (= false (error? 7)))
     )
   )
 
@@ -89,12 +90,21 @@
 
   
   (deftest evaluar-escalar-test
-    (testing "fnc-equal test BROKEN."
+    (testing "evaluar-escalar test BROKEN."
       (is (= '(32 (x 6 y 11 z "hola")) (evaluar-escalar 32 '(x 6 y 11 z "hola"))))
       (is (= '("chau" (x 6 y 11 z "hola")) (evaluar-escalar "chau" '(x 6 y 11 z "hola"))))
       (is (= '(11 (x 6 y 11 z "hola"))  (evaluar-escalar 'y '(x 6 y 11 z "hola"))))
       (is (= '("hola" (x 6 y 11 z "hola"))  (evaluar-escalar 'z '(x 6 y 11 z "hola"))))
       (is (= (str "((;ERROR: unbound variable: n) (x 6 y 11 z \"hola\"))") (str (evaluar-escalar 'n '(x 6 y 11 z "hola")))))
+    )
+  )
+  
+  (deftest actualizar-ambiente-test
+    (testing "actualizar-ambiente test BROKEN."
+      (is (= '(a 1 b 2 c 3 d 4) (actualizar-amb '(a 1 b 2 c 3) 'd 4)))
+      (is (= '(a 1 b 4 c 3) (actualizar-amb '(a 1 b 2 c 3) 'b 4)))
+      (is (= '(a 1 b 2 c 3) (actualizar-amb '(a 1 b 2 c 3) 'b (list (symbol ";ERROR:") 'mal 'hecho))))
+      (is (= '(b 7) (actualizar-amb () 'b 7)))
     )
   )
 

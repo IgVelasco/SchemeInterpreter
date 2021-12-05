@@ -647,6 +647,16 @@
   
   
   
+  (defn update-env-item
+    "Devuelve un ambiente actualizado con una clave (nombre de la variable o funcion) y su valor. 
+    Si el valor es un error, el ambiente no se modifica. De lo contrario, se le carga o reemplaza la nueva informacion."
+    [item-key item-value head tail]
+      (cond 
+        (empty? tail) (concat head (list item-key (first item-value)))
+        (= item-key (first tail)) (concat head (list item-key (first item-value)) (rest (rest tail)))
+        :else (update-env-item item-key item-value (concat head (take 2 tail)) (rest (rest tail)))
+      )
+  )
   
   ; user=> (actualizar-amb '(a 1 b 2 c 3) 'd 4)
   ; (a 1 b 2 c 3 d 4)
@@ -656,16 +666,15 @@
   ; (a 1 b 2 c 3)
   ; user=> (actualizar-amb () 'b 7)
   ; (b 7)
-  ;; (defn actualizar-amb
-  ;; "Devuelve un ambiente actualizado con una clave (nombre de la variable o funcion) y su valor. 
-  ;; Si el valor es un error, el ambiente no se modifica. De lo contrario, se le carga o reemplaza la nueva informacion."
-  ;; [env item-key item-value]
-  ;;   (cond
-  ;;     (error? item-value) env
-  ;;     (nil? (buscar item-key env)) (insert-to-env item-key item-value env)
-  ;;     :else (update-env-item)
-  ;;   )
-  ;; )
+  (defn actualizar-amb
+  "Devuelve un ambiente actualizado con una clave (nombre de la variable o funcion) y su valor. 
+  Si el valor es un error, el ambiente no se modifica. De lo contrario, se le carga o reemplaza la nueva informacion."
+  [env item-key item-value]
+    (cond
+      (error? item-value) env
+      :else (update-env-item  item-key (list item-value) '() env)
+    )
+  )
   
   ; user=> (buscar 'c '(a 1 b 2 c 3 d 4 e 5))
   ; 3
@@ -690,7 +699,10 @@
   (defn error?
   "Devuelve true o false, segun sea o no el arg. una lista con `;ERROR:` o `;WARNING:` como primer elemento."
   [var]
-   (or (= (first var) (symbol ";WARNING:")) (= (first var) (symbol ";ERROR:")))
+    (cond 
+      (not (list? var)) false
+      :else (or (= (first var) (symbol ";WARNING:")) (= (first var) (symbol ";ERROR:")))
+    ) 
   )
   
   
