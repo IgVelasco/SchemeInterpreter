@@ -933,12 +933,12 @@
   
   (defn rec-comp
     "Aux for fnc-equal"
-    [item1 item2 func]
+    [item1 item2 func func-symbol]
     (cond 
       (empty? item2) (symbol "#t")
-      (not (number? item1))(symbol (str (symbol ";ERROR: -: Wrong type in arg1 ") item1))
-      (not (number? (first item2)))(symbol (str (symbol ";ERROR: -: Wrong type in arg2 ") (first item2)))
-      (func item1 (first item2)) (rec-comp  (first item2) (rest item2) func)
+      (not (number? item1))(symbol (str (symbol "(;ERROR: ") func-symbol ": Wrong type in arg1 " item1 ")"))
+      (not (number? (first item2)))(symbol (str (symbol "(;ERROR: ") func-symbol ": Wrong type in arg2 " (first item2) ")"))
+      (func item1 (first item2)) (rec-comp  (first item2) (rest item2) func func-symbol)
       :else (symbol "#f")
     )
   )
@@ -969,7 +969,7 @@
   [item-list]
     (cond 
       (> 2 (count item-list)) (symbol "#t")
-      :else  (rec-comp (first item-list) (rest item-list) <)
+      :else  (rec-comp (first item-list) (rest item-list) < '<)
     
     )
   )

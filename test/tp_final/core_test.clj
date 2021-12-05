@@ -114,8 +114,8 @@
       (is (= (str (symbol "(;ERROR: +: Wrong type in arg2 A)")) (str (fnc-sumar '(3 4 A 6)))))
     )
   )
-
-
+  
+  
   (deftest fnc-restar-test
     (testing "fnc-restar test BROKEN."
       (is (= (str (symbol "(;ERROR: -: Wrong number of args given)")) (str (fnc-restar ()))))
@@ -126,6 +126,22 @@
       (is (= (str (symbol "(;ERROR: -: Wrong type in arg1 A)")) (str (fnc-restar '(A 4 5 6)))))
       (is (= (str (symbol "(;ERROR: -: Wrong type in arg2 A)")) (str (fnc-restar '(3 A 5 6)))))
       (is (= (str (symbol "(;ERROR: -: Wrong type in arg2 A)")) (str (fnc-restar '(3 4 A 6)))))
+    )
+  )
+  
+  
+  (deftest fnc-menor-test
+    (testing "fnc-restar test BROKEN."
+      (is (= (symbol "#t") (fnc-menor '())))
+      (is (= (symbol "#t") (fnc-menor '(1))))
+      (is (= (symbol "#t") (fnc-menor '(1 2))))
+      (is (= (symbol "#t") (fnc-menor '(1 2 3))))
+      (is (= (symbol "#t") (fnc-menor '(1 2 3 4))))
+      (is (= (symbol "#f") (fnc-menor '(1 2 2 4))))
+      (is (= (symbol "#f") (fnc-menor '(1 2 1 4))))
+      (is (= (str (symbol "(;ERROR: <: Wrong type in arg1 A)")) (str (fnc-menor '(A 1 2 4)))))
+      (is (= (str (symbol "(;ERROR: <: Wrong type in arg2 A)")) (str (fnc-menor '(1 A 1 4)))))
+      (is (= (str (symbol "(;ERROR: <: Wrong type in arg2 A)")) (str (fnc-menor '(1 2 A 4)))))
     )
   )
 
