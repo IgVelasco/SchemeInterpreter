@@ -676,7 +676,7 @@
   y devuelve el valor asociado. Devuelve un error :unbound-variable si no la encuentra."
   [item-to-find items]
     (cond (= item-to-find (first items)) (second items)
-      (empty? items)(symbol "(;ERROR: unbound variable: f)")
+      (empty? items)(symbol (str (symbol "(;ERROR: unbound variable: ") item-to-find ")"))
       :else (buscar item-to-find (rest (rest items)))
     )
   )
@@ -768,7 +768,7 @@
     [items]
       (cond 
         (empty? items) true
-        (not (list? (first items))) (symbol (str (symbol ";ERROR: -: Wrong type in arg ") (first items)))
+        (not (list? (first items))) (symbol (str (symbol "(;ERROR: append: Wrong type in arg ") (first items) ")"))
         :else (all-list? (rest items))
       )
   )
