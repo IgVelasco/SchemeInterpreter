@@ -1055,6 +1055,23 @@
       )
   )
   
+
+
+  (defn function-def [arg-list env]
+    (list (symbol "#<unspecified>") (actualizar-amb env (first (first arg-list)) (list 'lambda (rest (first arg-list)) (second arg-list))))
+  )
+
+  (defn simple-def [arg-list env]
+    (list (symbol "#<unspecified>") (actualizar-amb env (first arg-list) (second arg-list)))
+  )
+
+  (defn define-ok [arg-list env]
+    (cond
+      (list? (first arg-list)) (function-def arg-list env) 
+      :else (simple-def arg-list env)
+    )
+  )
+
   ; user=> (evaluar-define '(define x 2) '(x 1))
   ; (#<unspecified> (x 2))
   ; user=> (evaluar-define '(define (f x) (+ x 1)) '(x 1))
@@ -1070,16 +1087,16 @@
   ; user=> (evaluar-define '(define () 2) '(x 1))
   ; ((;ERROR: define: bad variable (define () 2)) (x 1))
   ; user=> (evaluar-define '(define 2 x) '(x 1))
-  ; ((;ERROR: define: bad variable (define 2 x)) (x 1))
-  
-  ;; env vacio?
-  
+  ; ((;ERROR: define: bad variable (define 2 x)) (x 1))  
   (defn evaluar-define
   "Evalua una expresion `define`. Devuelve una lista con el resultado y un ambiente actualizado con la definicion."
   [arg-list env]
-    ;; (cond 
-    ;;   (= 3 (count (first arg-list)))
-    ;; )
+    (cond 
+      (not (= 3 (count  arg-list))) (list (symbol (str (symbol "(;ERROR: define: missing or extra expression ") arg-list ")")) env)
+      (and (not (symbol? (second arg-list))) (not (list? (second arg-list)))) (list (symbol (str (symbol "(;ERROR: define: bad variable ") arg-list ")")) env)
+      (and = 3 (count  arg-list) (or (symbol? (second arg-list)) (symbol? (first (second arg-list))))) (define-ok  (rest arg-list) env) ;(define arg-list env)
+      :else (list (symbol (str (symbol "(;ERROR: define: bad variable ") arg-list ")")) env)
+    )
   )
   
   ; user=> (evaluar-if '(if 1 2) '(n 7))
@@ -1100,7 +1117,11 @@
   ; ((;ERROR: if: missing or extra expression (if 1)) (n 7))
   (defn evaluar-if
   "Evalua una expresion `if`. Devuelve una lista con el resultado y un ambiente eventualmente modificado."
-  [test]
+  [condition env]
+    (cond
+    
+
+    )
   )
   
   ; user=> (evaluar-or (list 'or) (list (symbol "#f") (symbol "#f") (symbol "#t") (symbol "#t")))
