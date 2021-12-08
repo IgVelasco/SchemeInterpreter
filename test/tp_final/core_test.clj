@@ -80,17 +80,6 @@
       (is false)
     )
   )
-
-  
-  (deftest evaluar-escalar-test
-    (testing "evaluar-escalar test BROKEN."
-      (is (= '(32 (x 6 y 11 z "hola")) (evaluar-escalar 32 '(x 6 y 11 z "hola"))))
-      (is (= '("chau" (x 6 y 11 z "hola")) (evaluar-escalar "chau" '(x 6 y 11 z "hola"))))
-      (is (= '(11 (x 6 y 11 z "hola"))  (evaluar-escalar 'y '(x 6 y 11 z "hola"))))
-      (is (= '("hola" (x 6 y 11 z "hola"))  (evaluar-escalar 'z '(x 6 y 11 z "hola"))))
-      (is (= (str "((;ERROR: unbound variable: n) (x 6 y 11 z \"hola\"))") (str (evaluar-escalar 'n '(x 6 y 11 z "hola")))))
-    )
-  )
   
   (deftest actualizar-ambiente-test
     (testing "actualizar-ambiente test BROKEN."
@@ -178,3 +167,47 @@
     )
   )
 
+  (deftest evaluar-escalar-test
+    (testing "evaluar-escalar test BROKEN."
+      (is (= '(32 (x 6 y 11 z "hola")) (evaluar-escalar 32 '(x 6 y 11 z "hola"))))
+      (is (= '("chau" (x 6 y 11 z "hola")) (evaluar-escalar "chau" '(x 6 y 11 z "hola"))))
+      (is (= '(11 (x 6 y 11 z "hola"))  (evaluar-escalar 'y '(x 6 y 11 z "hola"))))
+      (is (= '("hola" (x 6 y 11 z "hola"))  (evaluar-escalar 'z '(x 6 y 11 z "hola"))))
+      (is (= (str "((;ERROR: unbound variable: n) (x 6 y 11 z \"hola\"))") (str (evaluar-escalar 'n '(x 6 y 11 z "hola")))))
+    )
+  )
+
+
+
+  ; user=> (evaluar-define '(define 2 x) '(x 1))
+  ; ((;ERROR: define: bad variable (define 2 x)) (x 1))  
+
+  (deftest evaluar-define-test
+    (testing "evaluar-define test BROKEN."
+      (is (= (str (list (symbol "#<unspecified>") (symbol "(x 2)"))) (str (evaluar-define '(define x 2) '(x 1)))))
+      (is (= (str (list (symbol "#<unspecified>") (symbol "(x 1 f (lambda (x) (+ x 1)))"))) (str (evaluar-define '(define (f x) (+ x 1)) '(x 1)))))
+      (is (= (str (list (symbol "(;ERROR: define: missing or extra expression (define))") (symbol "(x 1)"))) (str (evaluar-define '(define) '(x 1)))))
+      (is (= (str (list (symbol "(;ERROR: define: missing or extra expression (define x))") (symbol "(x 1)"))) (str (evaluar-define '(define x) '(x 1)))))
+      (is (= (str (list (symbol "(;ERROR: define: missing or extra expression (define x 2 3))") (symbol "(x 1)"))) (str (evaluar-define '(define x 2 3) '(x 1)))))
+      (is (= (str (list (symbol "(;ERROR: define: missing or extra expression (define ()))") (symbol "(x 1)"))) (str (evaluar-define '(define ()) '(x 1)))))
+      (is (= (str (list (symbol "(;ERROR: define: bad variable (define () 2))") (symbol "(x 1)"))) (str (evaluar-define '(define () 2) '(x 1)))))
+      (is (= (str (list (symbol "(;ERROR: define: bad variable (define 2 x))") (symbol "(x 1)"))) (str (evaluar-define '(define 2 x) '(x 1)))))
+      (is (= (str (list (symbol "#<unspecified>") (symbol "(x 1 f (lambda (x) (display x) (newline) (+ x 1)))"))) (str   (evaluar-define '(define (f x) (display x) (newline) (+ x 1)) '(x 1))))) ; TODO: 
+    )
+  )
+  
+  ; user=> (evaluar-set! '(set! x 1) '(x 0)) -
+  ; user=> (evaluar-set! '(set! x 1) '())   -
+  ; user=> (evaluar-set! '(set! x) '(x 0))   -
+  ; user=> (evaluar-set! '(set! x 1 2) '(x 0))
+  ; user=> (evaluar-set! '(set! 1 2) '(x 0))
+  ; ((;ERROR: set!: bad variable 1) (x 0))
+  (deftest evaluar-set!-test
+    (testing "evaluar-set! test BROKEN."
+      (is (= (str (list (symbol "#<unspecified>") (symbol "(x 1)"))) (str (evaluar-set! '(set! x 1) '(x 0)))))
+      (is (= (str (list (symbol "(;ERROR: set!: unbound variable: x)") (symbol "()"))) (str (evaluar-set! '(set! x 1) '()))))
+      (is (= (str (list (symbol "(;ERROR: set!: missing or extra expression (set! x))") (symbol "(x 0)"))) (str (evaluar-set! '(set! x) '(x 0)))))
+      (is (= (str (list (symbol "(;ERROR: set!: missing or extra expression (set! x 1 2))") (symbol "(x 0)"))) (str  (evaluar-set! '(set! x 1 2) '(x 0)))))
+      (is (= (str (list (symbol "(;ERROR: set!: bad variable 1)") (symbol "(x 0)"))) (str (evaluar-set! '(set! 1 2) '(x 0)))))
+    )
+  )

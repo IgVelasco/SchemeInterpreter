@@ -616,12 +616,6 @@
   )
   
   
-  
-  
-  
-  
-  
-  
   ;; (defn update-env-item
   ;;   "Devuelve un ambiente actualizado con una clave (nombre de la variable o funcion) y su valor. 
   ;;   Si el valor es un error, el ambiente no se modifica. De lo contrario, se le carga o reemplaza la nueva informacion."
@@ -729,9 +723,6 @@
   [unsafe-str]
     (proteger-bool-en-str-lowercase (proteger-bool-en-str-uppercase unsafe-str) )
   )
-  
-  
-  
   
   
   (defn restaurar-bool-str-lowercase
@@ -1058,7 +1049,8 @@
 
 
   (defn function-def [arg-list env]
-    (list (symbol "#<unspecified>") (actualizar-amb env (first (first arg-list)) (list 'lambda (rest (first arg-list)) (second arg-list))))
+    (println arg-list)
+    (list (symbol "#<unspecified>") (actualizar-amb env (first (first arg-list)) (concat '(lambda) (list (list (second (first arg-list)))) (rest arg-list) )))
   )
 
   (defn simple-def [arg-list env]
@@ -1072,6 +1064,9 @@
     )
   )
 
+
+
+  ; TODO: (mandar algo que no sea define)
   ; user=> (evaluar-define '(define x 2) '(x 1))
   ; (#<unspecified> (x 2))
   ; user=> (evaluar-define '(define (f x) (+ x 1)) '(x 1))
@@ -1092,9 +1087,10 @@
   "Evalua una expresion `define`. Devuelve una lista con el resultado y un ambiente actualizado con la definicion."
   [arg-list env]
     (cond 
+      (and (list? (second arg-list)) (not (empty? (second arg-list)))) (define-ok  (rest arg-list) env)
       (not (= 3 (count  arg-list))) (list (symbol (str (symbol "(;ERROR: define: missing or extra expression ") arg-list ")")) env)
       (and (not (symbol? (second arg-list))) (not (list? (second arg-list)))) (list (symbol (str (symbol "(;ERROR: define: bad variable ") arg-list ")")) env)
-      (and = 3 (count  arg-list) (or (symbol? (second arg-list)) (symbol? (first (second arg-list))))) (define-ok  (rest arg-list) env) ;(define arg-list env)
+      (and = 3 (count  arg-list) (or (symbol? (second arg-list)) (symbol? (first (second arg-list))))) (define-ok  (rest arg-list) env)
       :else (list (symbol (str (symbol "(;ERROR: define: bad variable ") arg-list ")")) env)
     )
   )
@@ -1115,12 +1111,19 @@
   ; ((;ERROR: if: missing or extra expression (if)) (n 7))
   ; user=> (evaluar-if '(if 1) '(n 7))
   ; ((;ERROR: if: missing or extra expression (if 1)) (n 7))
+  ; user=> (evaluar-if '(if 1 2 3 4) '(n 7))
+  ; ((;ERROR: missing or extra expression (if 1 2 3 4)) (n 7))
   (defn evaluar-if
   "Evalua una expresion `if`. Devuelve una lista con el resultado y un ambiente eventualmente modificado."
   [condition env]
-    (cond
-    
+    (let [res (buscar (second condition) env )]
 
+    (cond
+        (> 3 (count condition)) (list (symbol (str (symbol "(;ERROR: missing or extra expression ") condition ")")) env)
+        (<= 5 (count condition)) (list (symbol (str (symbol "(;ERROR: missing or extra expression ") condition ")")) env)
+        ;; (= 3 (count condition)) (truth-only-if (rest condition) env)
+        :else true
+      )
     )
   )
   
@@ -1151,8 +1154,20 @@
   ; ((;ERROR: set!: bad variable 1) (x 0))
   (defn evaluar-set!
   "Evalua una expresion `set!`. Devuelve una lista con el resultado y un ambiente actualizado con la redefinicion."
-  [test]
+  [arg-list env]
+    (let [res (buscar (second arg-list) env )]
+      (cond
+        (> 3 (count arg-list)) (list (symbol (str (symbol "(;ERROR: set!: missing or extra expression ") arg-list ")")) env)
+        (<= 4 (count arg-list)) (list (symbol (str (symbol "(;ERROR: set!: missing or extra expression ") arg-list ")")) env)
+        (and (not (symbol? (second arg-list))) (not (list? (second arg-list)))) (list (symbol (str (symbol "(;ERROR: set!: bad variable ") (second arg-list) ")")) env)
+        (clojure.string/includes? (str res) "unbound") (list (symbol (str (symbol "(;ERROR: set!: unbound variable: ") (second arg-list) ")")) env) ;(error unbound)
+        (= 3 (count arg-list)) (evaluar-define (concat '((symbol "define")) (rest arg-list)) env)
+        :else false
+      )
+    )
   )
   
   
   ; Al terminar de cargar el archivo en el REPL de Clojure, se debe devolver true.
+  "((;ERROR: set!: unbound variable: x) ())"
+  "((;ERROR: set!: unbound variable x) ())"
