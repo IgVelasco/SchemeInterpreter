@@ -47,12 +47,10 @@
   
   (deftest restaurar-bool-test
     (testing "restaurar-bool BROKEN, FIXME"
-      (is (= (symbol "(and (or #F #f #t #T) #T)") (restaurar-bool (read-string (proteger-bool-en-str "(and (or #F #f #t #T) #T)")))))
-      (is (= (symbol "(and (or #F #f #t #T) #T)") (restaurar-bool (read-string "(and (or %F %f %t %T) %T)") )))
+      (is (= "(and (or #F #f #t #T) #T)") (restaurar-bool (read-string (proteger-bool-en-str "(and (or #F #f #t #T) #T)"))))
+      (is (= "(and (or #F #f #t #T) #T)") (restaurar-bool (read-string "(and (or %F %f %t %T) %T)") ))
     )
   )
-  
-  
   
   (deftest fnc-append-test
     (testing "fnc-append-bool BROKEN, FIXME"

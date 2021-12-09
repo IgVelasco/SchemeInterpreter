@@ -1,112 +1,115 @@
 (ns tp-final.core
   (:gen-class))
 
+
+  (declare repl)
+
   (defn -main
     "I don't do a whole lot ... yet."
     [& args]
-    (println "Hello, World!"))
+    (repl))
   
 
     (require '[clojure.string :as st :refer [blank? starts-with? ends-with? lower-case]]
       '[clojure.java.io :refer [delete-file reader]]
       '[clojure.walk :refer [postwalk postwalk-replace]])
-  
-  (defn spy
-  ([x] (do (prn x) x))
-  ([msg x] (do (print msg) (print ": ") (prn x) x))
-  )
-  
-  ; Funciones principales
-  (declare repl)
-  (declare evaluar)
-  (declare aplicar)
-  
-  ; Funciones secundarias de evaluar
-  (declare evaluar-if)
-  (declare evaluar-or)
-  (declare evaluar-cond)
-  (declare evaluar-eval)
-  (declare evaluar-exit)
-  (declare evaluar-load)
-  (declare evaluar-set!)
-  (declare evaluar-quote)
-  (declare evaluar-define)
-  (declare evaluar-lambda)
-  (declare evaluar-escalar)
-  
-  ; Funciones secundarias de aplicar
-  (declare aplicar-lambda)
-  (declare aplicar-funcion-primitiva)
-  
-  ; Funciones primitivas
-  (declare fnc-car)
-  (declare fnc-cdr)
-  (declare fnc-env)
-  (declare fnc-not)
-  (declare fnc-cons)
-  (declare fnc-list)
-  (declare fnc-list?)
-  (declare fnc-read)
-  (declare fnc-mayor)
-  (declare fnc-menor)
-  (declare fnc-null?)
-  (declare fnc-sumar)
-  (declare fnc-append)
-  (declare fnc-equal?)
-  (declare fnc-length)
-  (declare fnc-restar)
-  (declare fnc-display)
-  (declare fnc-newline)
-  (declare fnc-reverse)
-  (declare fnc-mayor-o-igual)
-  
-  ; Funciones auxiliares
-  
-  (declare buscar)
-  (declare error?)
-  (declare igual?)
-  (declare imprimir)
-  (declare cargar-arch)
-  (declare revisar-fnc)
-  (declare revisar-lae)
-  (declare leer-entrada)
-  (declare actualizar-amb)
-  (declare restaurar-bool)
-  (declare generar-nombre-arch)
-  (declare nombre-arch-valido?)
-  (declare controlar-aridad-fnc)
-  (declare proteger-bool-en-str)
-  (declare verificar-parentesis)
-  (declare generar-mensaje-error)
-  (declare aplicar-lambda-simple)
-  (declare aplicar-lambda-multiple)
-  (declare evaluar-clausulas-de-cond)
-  (declare evaluar-secuencia-en-cond)
-  
-  
-  ; REPL (read–eval–print loop).
-  ; Aridad 0: Muestra mensaje de bienvenida y se llama recursivamente con el ambiente inicial.
-  ; Aridad 1: Muestra > y lee una expresion y la evalua. El resultado es una lista con un valor y un ambiente. 
-  ; Si la 2da. posicion del resultado es nil, devuelve 'Goodbye! (caso base de la recursividad).
-  ; Si no, imprime la 1ra. pos. del resultado y se llama recursivamente con la 2da. pos. del resultado. 
-  (defn repl
-  "Inicia el REPL de Scheme."
-  ([]
-  (println "Interprete de Scheme en Clojure")
-  (println "Trabajo Practico de 75.14/95.48 - Lenguajes Formales 2021") (prn)
-  (println "Inspirado en:")
-  (println "  SCM version 5f2.")                        ; https://people.csail.mit.edu/jaffer/SCM.html
-  (println "  Copyright (C) 1990-2006 Free Software Foundation.") (prn) (flush)
-  (repl (list 'append 'append 'car 'car 'cdr 'cdr 'cond 'cond 'cons 'cons 'define 'define
+
+(defn spy
+([x] (do (prn x) x))
+([msg x] (do (print msg) (print ": ") (prn x) x))
+)
+
+; Funciones principales
+(declare repl)
+(declare evaluar)
+(declare aplicar)
+
+; Funciones secundarias de evaluar
+(declare evaluar-if)
+(declare evaluar-or)
+(declare evaluar-cond)
+(declare evaluar-eval)
+(declare evaluar-exit)
+(declare evaluar-load)
+(declare evaluar-set!)
+(declare evaluar-quote)
+(declare evaluar-define)
+(declare evaluar-lambda)
+(declare evaluar-escalar)
+
+; Funciones secundarias de aplicar
+(declare aplicar-lambda)
+(declare aplicar-funcion-primitiva)
+
+; Funciones primitivas
+(declare fnc-car)
+(declare fnc-cdr)
+(declare fnc-env)
+(declare fnc-not)
+(declare fnc-cons)
+(declare fnc-list)
+(declare fnc-list?)
+(declare fnc-read)
+(declare fnc-mayor)
+(declare fnc-menor)
+(declare fnc-null?)
+(declare fnc-sumar)
+(declare fnc-append)
+(declare fnc-equal?)
+(declare fnc-length)
+(declare fnc-restar)
+(declare fnc-display)
+(declare fnc-newline)
+(declare fnc-reverse)
+(declare fnc-mayor-o-igual)
+
+; Funciones auxiliares
+
+(declare buscar)
+(declare error?)
+(declare igual?)
+(declare imprimir)
+(declare cargar-arch)
+(declare revisar-fnc)
+(declare revisar-lae)
+(declare leer-entrada)
+(declare actualizar-amb)
+(declare restaurar-bool)
+(declare generar-nombre-arch)
+(declare nombre-arch-valido?)
+(declare controlar-aridad-fnc)
+(declare proteger-bool-en-str)
+(declare verificar-parentesis)
+(declare generar-mensaje-error)
+(declare aplicar-lambda-simple)
+(declare aplicar-lambda-multiple)
+(declare evaluar-clausulas-de-cond)
+(declare evaluar-secuencia-en-cond)
+
+
+; REPL (read–eval–print loop).
+; Aridad 0: Muestra mensaje de bienvenida y se llama recursivamente con el ambiente inicial.
+; Aridad 1: Muestra > y lee una expresion y la evalua. El resultado es una lista con un valor y un ambiente. 
+; Si la 2da. posicion del resultado es nil, devuelve 'Goodbye! (caso base de la recursividad).
+; Si no, imprime la 1ra. pos. del resultado y se llama recursivamente con la 2da. pos. del resultado. 
+(defn repl
+"Inicia el REPL de Scheme."
+([]
+(println "Interprete de Scheme en Clojure")
+(println "Trabajo Practico de 75.14/95.48 - Lenguajes Formales 2021") (prn)
+(println "Inspirado en:")
+(println "  SCM version 5f2.")                        ; https://people.csail.mit.edu/jaffer/SCM.html
+(println "  Copyright (C) 1990-2006 Free Software Foundation.") (prn) (flush)
+(repl (list 'append 'append 'car 'car 'cdr 'cdr 'cond 'cond 'cons 'cons 'define 'define
             'display 'display 'env 'env 'equal? 'equal? 'eval 'eval 'exit 'exit
             'if 'if 'lambda 'lambda 'length 'length 'list 'list 'list? 'list? 'load 'load
             'newline 'newline 'nil (symbol "#f") 'not 'not 'null? 'null? 'or 'or 'quote 'quote
             'read 'read 'reverse 'reverse 'set! 'set! (symbol "#f") (symbol "#f")
             (symbol "#t") (symbol "#t") '+ '+ '- '- '< '< '> '> '>= '>=)))
-  ([amb]
-  (print "> ") (flush)
-  (try
-  (let [renglon (leer-entrada)]                       ; READ
+([amb]
+(print "> ") (flush)
+(try
+  (let [renglon (leer-entrada)]                    ; READ
        (if (= renglon "")
            (repl amb)
            (let [str-corregida (proteger-bool-en-str renglon),
@@ -120,18 +123,18 @@
   (catch Exception e                                  ; PRINT (si se lanza una excepcion)
                 (imprimir (generar-mensaje-error :error (get (Throwable->map e) :cause)))
                 (repl amb)))))                        ; LOOP (Se llama a si misma con el ambiente intacto)
-  
-  
-  (defn evaluar
-  "Evalua una expresion `expre` en un ambiente. Devuelve un lista con un valor resultante y un ambiente."
-  [expre amb]
-  (if (and (seq? expre) (or (empty? expre) (error? expre))) ; si `expre` es () o error, devolverla intacta
+
+
+(defn evaluar
+"Evalua una expresion `expre` en un ambiente. Devuelve un lista con un valor resultante y un ambiente."
+[expre amb]
+(if (and (seq? expre) (or (empty? expre) (error? expre))) ; si `expre` es () o error, devolverla intacta
    (list expre amb)                                      ; de lo contrario, evaluarla
    (cond
      (not (seq? expre))             (evaluar-escalar expre amb)
-  
+
      (igual? (first expre) 'define) (evaluar-define expre amb)
-  
+
       ;
       ;
       ;
@@ -140,37 +143,37 @@
       ;
       ;
       ;
-  
-           :else (let [res-eval-1 (evaluar (first expre) amb),
-                                   res-eval-2 (reduce (fn [x y] (let [res-eval-3 (evaluar y (first x))] (cons (second res-eval-3) (concat (next x) (list (first res-eval-3)))))) (cons (list (second res-eval-1)) (next expre)))]
-                                   (aplicar (first res-eval-1) (next res-eval-2) (first res-eval-2))))))
-  
-  
-  (defn aplicar
-  "Aplica la funcion `fnc` a la lista de argumentos `lae` evaluados en el ambiente dado."
-  ([fnc lae amb]
-  (aplicar (revisar-fnc fnc) (revisar-lae lae) fnc lae amb))
-  ([resu1 resu2 fnc lae amb]
-  (cond
+
+       :else (let [res-eval-1 (evaluar (first expre) amb),
+                       res-eval-2 (reduce (fn [x y] (let [res-eval-3 (evaluar y (first x))] (cons (second res-eval-3) (concat (next x) (list (first res-eval-3)))))) (cons (list (second res-eval-1)) (next expre)))]
+                       (aplicar (first res-eval-1) (next res-eval-2) (first res-eval-2))))))
+
+
+(defn aplicar
+"Aplica la funcion `fnc` a la lista de argumentos `lae` evaluados en el ambiente dado."
+([fnc lae amb]
+(aplicar (revisar-fnc fnc) (revisar-lae lae) fnc lae amb))
+([resu1 resu2 fnc lae amb]
+(cond
   (error? resu1) (list resu1 amb)
   (error? resu2) (list resu2 amb)
   (not (seq? fnc)) (list (aplicar-funcion-primitiva fnc lae amb) amb)
   :else (aplicar-lambda fnc lae amb))))
-  
-  
-  (defn aplicar-lambda
-  "Aplica la funcion lambda `fnc` a `lae` (lista de argumentos evaluados)."
-  [fnc lae amb]
-  (cond
-  (not= (count lae) (count (second fnc))) (list (generar-mensaje-error :wrong-number-args fnc) amb)
-  (nil? (next (nnext fnc))) (aplicar-lambda-simple fnc lae amb)
-  :else (aplicar-lambda-multiple fnc lae amb)))
-  
-  
-  (defn aplicar-lambda-simple
-  "Evalua un lambda `fnc` con un cuerpo simple"
-  [fnc lae amb]
-  (let [lae-con-quotes (map #(if (or (number? %) (string? %) (and (seq? %) (igual? (first %) 'lambda)))
+
+
+(defn aplicar-lambda
+"Aplica la funcion lambda `fnc` a `lae` (lista de argumentos evaluados)."
+[fnc lae amb]
+(cond
+ (not= (count lae) (count (second fnc))) (list (generar-mensaje-error :wrong-number-args fnc) amb)
+ (nil? (next (nnext fnc))) (aplicar-lambda-simple fnc lae amb)
+ :else (aplicar-lambda-multiple fnc lae amb)))
+
+
+(defn aplicar-lambda-simple
+"Evalua un lambda `fnc` con un cuerpo simple"
+[fnc lae amb]
+(let [lae-con-quotes (map #(if (or (number? %) (string? %) (and (seq? %) (igual? (first %) 'lambda)))
                               %
                               (list 'quote %)) lae),
      nuevos-pares (reduce concat (map list (second fnc) lae-con-quotes)),
@@ -180,275 +183,282 @@
                (cons (first cuerpo) (postwalk-replace mapa (rest cuerpo)))
                (postwalk-replace mapa cuerpo))]
      (evaluar expre amb)))
-  
-  
-  (defn aplicar-lambda-multiple
-  "Evalua una funcion lambda `fnc` cuyo cuerpo contiene varias partes."
-  [fnc lae amb]
-  (aplicar (cons 'lambda (cons (second fnc) (next (nnext fnc))))
+
+
+(defn aplicar-lambda-multiple
+"Evalua una funcion lambda `fnc` cuyo cuerpo contiene varias partes."
+[fnc lae amb]
+(aplicar (cons 'lambda (cons (second fnc) (next (nnext fnc))))
         lae
         (second (aplicar-lambda-simple fnc lae amb))))
-  
-  
-  (defn aplicar-funcion-primitiva
-  "Aplica una funcion primitiva a una `lae` (lista de argumentos evaluados)."
-  [fnc lae amb]
-  (cond
-  (= fnc '<)            (fnc-menor lae)
-  
-  ;
-  ;
-  ; Si la funcion primitiva esta identificada por un simbolo, puede determinarse mas rapido que hacer con ella
-  ;
-  ;
-  
-  
-  (igual? fnc 'append)  (fnc-append lae)
-  
-  ;
-  ;
-  ; Si la funcion primitiva esta identificada mediante una palabra reservada, debe ignorarse la distincion entre mayusculas y minusculas 
-  ;
-  ;
-  
-  :else (generar-mensaje-error :wrong-type-apply fnc)))
-  
-  
-  (defn fnc-car
-  "Devuelve el primer elemento de una lista."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 1 'car), arg1 (first lae)]
+
+
+(defn aplicar-funcion-primitiva
+"Aplica una funcion primitiva a una `lae` (lista de argumentos evaluados)."
+[fnc lae amb]
+(cond
+ (= fnc '<)            (fnc-menor lae)
+ (= fnc '+)            (fnc-sumar lae)
+ (= fnc '-)            (fnc-restar lae)
+ (= fnc '>)            (fnc-mayor lae)
+ (= fnc '>=)           (fnc-mayor-o-igual lae)
+ (= fnc 'append)       (fnc-append lae)
+ (= fnc 'equal?)       (fnc-equal? lae)
+ (= fnc 'read)         (fnc-read lae)
+
+ ;
+ ;
+ ; Si la funcion primitiva esta identificada por un simbolo, puede determinarse mas rapido que hacer con ella
+ ;
+ ;
+
+
+ (igual? fnc 'append)  (fnc-append lae)
+
+ ;
+ ;
+ ; Si la funcion primitiva esta identificada mediante una palabra reservada, debe ignorarse la distincion entre mayusculas y minusculas 
+ ;
+ ;
+
+ :else (generar-mensaje-error :wrong-type-apply fnc)))
+
+
+(defn fnc-car
+"Devuelve el primer elemento de una lista."
+[lae]
+(let [ari (controlar-aridad-fnc lae 1 'car), arg1 (first lae)]
     (cond
       (error? ari) ari
       (or (not (seq? arg1)) (empty? arg1)) (generar-mensaje-error :wrong-type-arg1 'car arg1)
       :else (first arg1))))
-  
-  
-  (defn fnc-cdr
-  "Devuelve una lista sin su 1ra. posicion."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 1 'cdr), arg1 (first lae)]
+
+
+(defn fnc-cdr
+"Devuelve una lista sin su 1ra. posicion."
+[lae]
+(let [ari (controlar-aridad-fnc lae 1 'cdr), arg1 (first lae)]
     (cond
       (error? ari) ari
       (or (not (seq? arg1)) (empty? arg1)) (generar-mensaje-error :wrong-type-arg1 'cdr arg1)
       :else (rest arg1))))
-  
-  
-  (defn fnc-cons
-  "Devuelve el resultado de insertar un elemento en la cabeza de una lista."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 2 'cons), arg1 (first lae), arg2 (second lae)]
+
+
+(defn fnc-cons
+"Devuelve el resultado de insertar un elemento en la cabeza de una lista."
+[lae]
+(let [ari (controlar-aridad-fnc lae 2 'cons), arg1 (first lae), arg2 (second lae)]
     (cond
       (error? ari) ari
-                        (not (seq? arg2)) (generar-mensaje-error :only-proper-lists-implemented 'cons)
-                        :else (cons arg1 arg2))))
-  
-  
-  (defn fnc-display
-  "Imprime un elemento por la termina/consola y devuelve #<unspecified>."
-  [lae]
-  (let [cant-args (count lae), arg1 (first lae)]
+            (not (seq? arg2)) (generar-mensaje-error :only-proper-lists-implemented 'cons)
+            :else (cons arg1 arg2))))
+
+
+(defn fnc-display
+"Imprime un elemento por la termina/consola y devuelve #<unspecified>."
+[lae]
+(let [cant-args (count lae), arg1 (first lae)]
     (case cant-args
       1 (do (print arg1) (flush) (symbol "#<unspecified>"))
       2 (generar-mensaje-error :io-ports-not-implemented 'display)
       (generar-mensaje-error :wrong-number-args-prim-proc 'display))))
-  
-  
-  (defn fnc-env
-  "Devuelve el ambiente."
-  [lae amb]
-  (let [ari (controlar-aridad-fnc lae 0 'env)]
+
+
+(defn fnc-env
+"Devuelve el ambiente."
+[lae amb]
+(let [ari (controlar-aridad-fnc lae 0 'env)]
     (if (error? ari)
         ari
         amb)))
-  
-  
-  (defn fnc-length
-  "Devuelve la longitud de una lista."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 1 'length), arg1 (first lae)]
+
+
+(defn fnc-length
+"Devuelve la longitud de una lista."
+[lae]
+(let [ari (controlar-aridad-fnc lae 1 'length), arg1 (first lae)]
     (cond
       (error? ari) ari
       (not (seq? arg1)) (generar-mensaje-error :wrong-type-arg1 'length arg1)
       :else (count arg1))))
-  
-  
-  (defn fnc-list
-  "Devuelve una lista formada por los args."
-  [lae]
-  (if (< (count lae) 1)
+
+
+(defn fnc-list
+"Devuelve una lista formada por los args."
+[lae]
+(if (< (count lae) 1)
    ()
    lae))
-  
-  
-  (defn fnc-list?
-  "Devuelve #t si un elemento es una lista. Si no, #f."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 1 'list?), arg1 (first lae)]
+
+
+(defn fnc-list?
+"Devuelve #t si un elemento es una lista. Si no, #f."
+[lae]
+(let [ari (controlar-aridad-fnc lae 1 'list?), arg1 (first lae)]
     (if (error? ari)
         ari
         (if (seq? arg1)
             (symbol "#t")
             (symbol "#f")))))
-  
-  
-  (defn fnc-newline
-  "Imprime un salto de linea y devuelve #<unspecified>."
-  [lae]
-  (let [cant-args (count lae)]
+
+
+(defn fnc-newline
+"Imprime un salto de linea y devuelve #<unspecified>."
+[lae]
+(let [cant-args (count lae)]
     (case cant-args
       0 (do (newline) (flush) (symbol "#<unspecified>"))
       1 (generar-mensaje-error :io-ports-not-implemented 'newline)
       (generar-mensaje-error :wrong-number-args-prim-proc 'newline))))
-  
-  
-  (defn fnc-not
-  "Niega el argumento."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 1 'not)]
+
+
+(defn fnc-not
+"Niega el argumento."
+[lae]
+(let [ari (controlar-aridad-fnc lae 1 'not)]
     (if (error? ari)
         ari
         (if (igual? (first lae) (symbol "#f"))
             (symbol "#t")
             (symbol "#f")))))
-  
-  
-  (defn fnc-null?
-  "Devuelve #t si un elemento es ()."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 1 'null?)]
+
+
+(defn fnc-null?
+"Devuelve #t si un elemento es ()."
+[lae]
+(let [ari (controlar-aridad-fnc lae 1 'null?)]
     (if (error? ari)
         ari
         (if (= (first lae) ())
             (symbol "#t")
             (symbol "#f")))))
-  
-  
-  (defn fnc-reverse
-  "Devuelve una lista con los elementos de `lae` en orden inverso."
-  [lae]
-  (let [ari (controlar-aridad-fnc lae 1 'reverse), arg1 (first lae)]
+
+
+(defn fnc-reverse
+"Devuelve una lista con los elementos de `lae` en orden inverso."
+[lae]
+ (let [ari (controlar-aridad-fnc lae 1 'reverse), arg1 (first lae)]
     (cond
       (error? ari) ari
       (not (seq? arg1)) (generar-mensaje-error :wrong-type-arg1 'reverse arg1)
       :else (reverse arg1))))
-  
-  
-  (defn controlar-aridad-fnc
-  "Si la `lae` tiene la longitud esperada, se devuelve este valor (que es la aridad de la funcion).
-  Si no, devuelve una lista con un mensaje de error."
-  [lae val-esperado fnc]
-  (if (= val-esperado (count lae))
+
+
+(defn controlar-aridad-fnc
+"Si la `lae` tiene la longitud esperada, se devuelve este valor (que es la aridad de la funcion).
+Si no, devuelve una lista con un mensaje de error."
+[lae val-esperado fnc]
+(if (= val-esperado (count lae))
    val-esperado
    (generar-mensaje-error :wrong-number-args-prim-proc fnc)))
-  
-  
-  (defn imprimir
-  "Imprime, con salto de linea, atomos o listas en formato estandar (las cadenas
-  con comillas) y devuelve su valor. Muestra errores sin parentesis."
-  ([elem]
-  (cond
+
+
+(defn imprimir
+"Imprime, con salto de linea, atomos o listas en formato estandar (las cadenas
+con comillas) y devuelve su valor. Muestra errores sin parentesis."
+([elem]
+(cond
   (= \space elem) elem    ; Si es \space no lo imprime pero si lo devuelve
   (and (seq? elem) (starts-with? (apply str elem) ";")) (imprimir elem elem)
   :else (do (prn elem) (flush) elem)))
-  ([lis orig]
-  (cond
+([lis orig]
+(cond
   (nil? lis) (do (prn) (flush) orig)
   :else (do (pr (first lis))
             (print " ")
             (imprimir (next lis) orig)))))
-  
-  
-  (defn revisar-fnc
-  "Si la `lis` representa un error lo devuelve; si no, devuelve nil."
-  [lis] (if (error? lis) lis nil))
-  
-  
-  (defn revisar-lae
-  "Si la `lis` contiene alguna sublista que representa un error lo devuelve; si no, devuelve nil."
-  [lis] (first (remove nil? (map revisar-fnc (filter seq? lis)))))
-  
-  
-  (defn evaluar-cond
-  "Evalua una expresion `cond`."
-  [expre amb]
-  (if (= (count expre) 1) ; si es el operador solo
+
+
+(defn revisar-fnc
+"Si la `lis` representa un error lo devuelve; si no, devuelve nil."
+[lis] (if (error? lis) lis nil))
+
+
+(defn revisar-lae
+"Si la `lis` contiene alguna sublista que representa un error lo devuelve; si no, devuelve nil."
+[lis] (first (remove nil? (map revisar-fnc (filter seq? lis)))))
+
+
+(defn evaluar-cond
+"Evalua una expresion `cond`."
+[expre amb]
+(if (= (count expre) 1) ; si es el operador solo
    (list (generar-mensaje-error :bad-or-missing 'cond expre) amb)
    (let [res (drop-while #(and (seq? %) (not (empty? %))) (next expre))]
          (if (empty? res) 
              (evaluar-clausulas-de-cond expre (next expre) amb)
              (list (generar-mensaje-error :bad-or-missing 'cond (first res)) amb)))))
-  
-  
-  (defn evaluar-clausulas-de-cond
-  "Evalua las clausulas de cond."
-  [expre lis amb]
-  (if (nil? lis)
-      (list (symbol "#<unspecified>") amb) ; cuando ninguna fue distinta de #f
-         (let [res-eval (if (not (igual? (ffirst lis) 'else))
-                            (evaluar (ffirst lis) amb)
-                            (if (nil? (next lis))
-                                (list (symbol "#t") amb)
-                                (list (generar-mensaje-error :bad-else-clause 'cond expre) amb)))]
-              (cond
-                (error? (first res-eval)) res-eval
-                (igual? (first res-eval) (symbol "#f")) (recur expre (next lis) (second res-eval)) 
-                :else (evaluar-secuencia-en-cond (nfirst lis) (second res-eval))))))
-  
-  
-  (defn evaluar-secuencia-en-cond
-  "Evalua secuencialmente las sublistas de `lis`. Devuelve el valor de la ultima evaluacion."
-  [lis amb]
-   (if (nil? (next lis))
-       (evaluar (first lis) amb)
-       (let [res-eval (evaluar (first lis) amb)]
-            (if (error? (first res-eval))
-                   res-eval
-                (recur (next lis) (second res-eval))))))
-  
-  
-  (defn evaluar-eval
-  "Evalua una expresion `eval`."
-  [expre amb]
-  (if (not= (count expre) 2) ; si no son el operador y exactamente 1 argumento
+
+
+(defn evaluar-clausulas-de-cond
+"Evalua las clausulas de cond."
+[expre lis amb]
+(if (nil? lis)
+    (list (symbol "#<unspecified>") amb) ; cuando ninguna fue distinta de #f
+     (let [res-eval (if (not (igual? (ffirst lis) 'else))
+                        (evaluar (ffirst lis) amb)
+                        (if (nil? (next lis))
+                            (list (symbol "#t") amb)
+                            (list (generar-mensaje-error :bad-else-clause 'cond expre) amb)))]
+          (cond
+            (error? (first res-eval)) res-eval
+            (igual? (first res-eval) (symbol "#f")) (recur expre (next lis) (second res-eval)) 
+            :else (evaluar-secuencia-en-cond (nfirst lis) (second res-eval))))))
+
+
+(defn evaluar-secuencia-en-cond
+"Evalua secuencialmente las sublistas de `lis`. Devuelve el valor de la ultima evaluacion."
+[lis amb]
+ (if (nil? (next lis))
+     (evaluar (first lis) amb)
+     (let [res-eval (evaluar (first lis) amb)]
+          (if (error? (first res-eval))
+               res-eval
+              (recur (next lis) (second res-eval))))))
+
+
+(defn evaluar-eval
+"Evalua una expresion `eval`."
+[expre amb]
+(if (not= (count expre) 2) ; si no son el operador y exactamente 1 argumento
    (list (generar-mensaje-error :wrong-number-args (symbol "#<CLOSURE <anon> ...")) amb)
    (let [arg (second expre)]
         (if (and (seq? arg) (igual? (first arg) 'quote))
             (evaluar (second arg) amb)
             (evaluar arg amb)))))
-  
-  
-  (defn evaluar-exit
-  "Sale del interprete de Scheme."
-  [expre amb]
-  (if (> (count expre) 2) ; si son el operador y mas de 1 argumento
+
+
+(defn evaluar-exit
+"Sale del interprete de Scheme."
+[expre amb]
+(if (> (count expre) 2) ; si son el operador y mas de 1 argumento
    (list (generar-mensaje-error :wrong-number-args-prim-proc 'quit) amb)
    (list nil nil)))
-  
-  
-  (defn evaluar-lambda
-  "Evalua una expresion `lambda`."
-  [expre amb]
-  (cond
-  (< (count expre) 3) ; si son el operador solo o con 1 unico argumento
+
+
+(defn evaluar-lambda
+"Evalua una expresion `lambda`."
+[expre amb]
+(cond
+ (< (count expre) 3) ; si son el operador solo o con 1 unico argumento
        (list (generar-mensaje-error :bad-body 'lambda (rest expre)) amb)
-  (not (seq? (second expre)))
+ (not (seq? (second expre)))
        (list (generar-mensaje-error :bad-params 'lambda expre) amb)
-  :else (list expre amb)))
-  
-  
-  (defn evaluar-load
-  "Evalua una expresion `load`. Carga en el ambiente un archivo `expre` de codigo en Scheme."
-  [expre amb]
-  (if (= (count expre) 1) ; si es el operador solo
+ :else (list expre amb)))
+
+
+(defn evaluar-load
+"Evalua una expresion `load`. Carga en el ambiente un archivo `expre` de codigo en Scheme."
+[expre amb]
+(if (= (count expre) 1) ; si es el operador solo
    (list (generar-mensaje-error :wrong-number-args (symbol "#<CLOSURE scm:load ...")) amb)
    (list (symbol "#<unspecified>") (cargar-arch amb (second expre)))))
-  
-  
-  (defn cargar-arch
-  "Carga y devuelve el contenido de un archivo."
-  ([amb arch]
-  (let [res (evaluar arch amb),
+
+
+(defn cargar-arch
+"Carga y devuelve el contenido de un archivo."
+([amb arch]
+(let [res (evaluar arch amb),
       nom-original (first res),
       nuevo-amb (second res)]
       (if (error? nom-original)
@@ -471,48 +481,48 @@
                                                  (catch Exception e
                                                     (imprimir (generar-mensaje-error :end-of-file 'list))))))]
                                        (do (delete-file "scm-temp" true) ret))))))))))
-  ([amb in nom-orig nom-usado]
-  (try
+([amb in nom-orig nom-usado]
+(try
   (cargar-arch (second (evaluar (restaurar-bool (read in)) amb)) in nom-orig nom-usado)
   (catch Exception _
     (imprimir (list (symbol ";done loading") (symbol nom-usado)))
     amb))))
-  
-  
-  (defn generar-nombre-arch
-  "Dada una entrada la convierte en un nombre de archivo .scm valido."
-  [nom]
-  (if (not (string? nom))
+
+
+(defn generar-nombre-arch
+"Dada una entrada la convierte en un nombre de archivo .scm valido."
+[nom]
+(if (not (string? nom))
    (generar-mensaje-error :wrong-type-arg1 'string-length nom)
    (let [n (lower-case nom)]
          (if (nombre-arch-valido? n)
              n
              (str n ".scm")))))    ; Agrega '.scm' al final
-  
-  
-  (defn nombre-arch-valido?
-  "Chequea que el string sea un nombre de archivo .scm valido."
-  [nombre] (and (> (count nombre) 4) (ends-with? nombre ".scm")))
-  
-  
-  (defn evaluar-quote
-  "Evalua una expresion `quote`."
-  [expre amb]
-  (if (not= (count expre) 2) ; si no son el operador y exactamente 1 argumento
+
+
+(defn nombre-arch-valido?
+"Chequea que el string sea un nombre de archivo .scm valido."
+[nombre] (and (> (count nombre) 4) (ends-with? nombre ".scm")))
+
+
+(defn evaluar-quote
+"Evalua una expresion `quote`."
+[expre amb]
+(if (not= (count expre) 2) ; si no son el operador y exactamente 1 argumento
    (list (generar-mensaje-error :missing-or-extra 'quote expre) amb)
    (list (second expre) amb)))
-  
-  
-  (defn generar-mensaje-error
-  "Devuelve un mensaje de error expresado como lista."
-  ([cod]
-          (case cod 
+
+
+(defn generar-mensaje-error
+"Devuelve un mensaje de error expresado como lista."
+([cod]
+    (case cod 
       :file-not-found (list (symbol ";ERROR:") 'No 'such 'file 'or 'directory)
       :warning-paren (list (symbol ";WARNING:") 'unexpected (symbol "\")\"#<input-port 0>"))
       ()))
-  ([cod fnc]
-  (cons (symbol ";ERROR:")
-             (case cod
+([cod fnc]
+ (cons (symbol ";ERROR:")
+       (case cod
       :end-of-file (list (symbol (str fnc ":")) 'end 'of 'file)
       :error (list (symbol (str fnc)))
       :io-ports-not-implemented (list (symbol (str fnc ":")) 'Use 'of 'I/O 'ports 'not 'implemented)
@@ -523,20 +533,19 @@
       :wrong-number-args-prim-proc (list 'Wrong 'number 'of 'args 'given (symbol "#<primitive-procedure") (symbol (str fnc '>)))
       :wrong-type-apply (list 'Wrong 'type 'to 'apply fnc)
       ())))
-  ([cod fnc nom-arg]
-  (cons (symbol ";ERROR:") (cons (symbol (str fnc ":"))
-             (case cod
-               :bad-body (list 'bad 'body nom-arg)
-               :bad-else-clause (list 'bad 'ELSE 'clause nom-arg)
-               :bad-or-missing (list 'bad 'or 'missing 'clauses nom-arg)
-               :bad-params (list 'Parameters 'are 'implemented 'only 'as 'lists nom-arg)
-               :bad-variable (list 'bad 'variable nom-arg)
-               :missing-or-extra (list 'missing 'or 'extra 'expression nom-arg)
-               :wrong-type-arg (list 'Wrong 'type 'in 'arg nom-arg)
-               :wrong-type-arg1 (list 'Wrong 'type 'in 'arg1 nom-arg)
-               :wrong-type-arg2 (list 'Wrong 'type 'in 'arg2 nom-arg)
+([cod fnc nom-arg]
+ (cons (symbol ";ERROR:") (cons (symbol (str fnc ":"))
+       (case cod
+         :bad-body (list 'bad 'body nom-arg)
+         :bad-else-clause (list 'bad 'ELSE 'clause nom-arg)
+         :bad-or-missing (list 'bad 'or 'missing 'clauses nom-arg)
+         :bad-params (list 'Parameters 'are 'implemented 'only 'as 'lists nom-arg)
+         :bad-variable (list 'bad 'variable nom-arg)
+         :missing-or-extra (list 'missing 'or 'extra 'expression nom-arg)
+         :wrong-type-arg (list 'Wrong 'type 'in 'arg nom-arg)
+         :wrong-type-arg1 (list 'Wrong 'type 'in 'arg1 nom-arg)
+         :wrong-type-arg2 (list 'Wrong 'type 'in 'arg2 nom-arg)
       ())))))
-  
   
   ; FUNCIONES QUE DEBEN SER IMPLEMENTADAS PARA COMPLETAR EL INTERPRETE DE SCHEME (ADEMAS DE COMPLETAR `EVALUAR` Y `APLICAR-FUNCION-PRIMITIVA`):
   
@@ -724,27 +733,45 @@
     (proteger-bool-en-str-lowercase (proteger-bool-en-str-uppercase unsafe-str) )
   )
   
+
+
+  ;; (let [str-corregida (proteger-bool-en-str renglon),
+  ;;   cod-en-str (read-string str-corregida),
+  ;;   cod-corregido (restaurar-bool cod-en-str),
+  ;;   res (evaluar cod-corregido amb)]     ; EVAL
+  ;;   (if (nil? (second res))              ;   Si el ambiente del resultado es `nil`, es porque se ha evaluado (exit)
+  ;;       'Goodbye!                        ;   En tal caso, sale del REPL devolviendo Goodbye!.
+  ;;       (do (imprimir (first res))       ; PRINT
+  ;;           (repl (second res))))
   
-  (defn restaurar-bool-str-lowercase
-    "Aux for restaurar-bool"
-    [unsafe-str]
-      (clojure.string/replace (clojure.string/replace unsafe-str #"%t" "#t") #"%f" "#f")
-  )
+  ;; (defn restaurar-bool-str-lowercase
+  ;;   "Aux for restaurar-bool"
+  ;;   [unsafe-str]
+  ;;     (clojure.string/replace (clojure.string/replace unsafe-str #"%t" "#t") #"%f" "#f")
+  ;; )
   
-  (defn restaurar-bool-str-uppercase
-    "Aux for restaurar-bool"
-    [unsafe-str]
-      (clojure.string/replace (clojure.string/replace unsafe-str #"%T" "#T") #"%F" "#F")
-  )
+  ;; (defn restaurar-bool-str-uppercase
+  ;;   "Aux for restaurar-bool"
+  ;;   [safe-str]
+  ;;     (clojure.string/replace (clojure.walk/prewalk #(if (= (symbol "%f") %1) (symbol "#f") %1)  safe-str))
+  ;; )
   
+  ;; El symbol puede estar mal 
   ; user=> (restaurar-bool (read-string (proteger-bool-en-str "(and (or #F #f #t #T) #T)")))
   ; (and (or #F #f #t #T) #T)
   ; user=> (restaurar-bool (read-string "(and (or %F %f %t %T) %T)") )
   ; (and (or #F #f #t #T) #T)
   (defn restaurar-bool
   "Cambia, en un codigo leido con read-string, %t por #t y %f por #f (y sus respectivas versiones en mayusculas)."
-  [safe-str]
-    (symbol (restaurar-bool-str-lowercase (restaurar-bool-str-uppercase safe-str) ))
+  [safe-symbols]
+    (clojure.walk/prewalk #(if (= (symbol "%T") %1) (symbol "#T") %1)
+      (clojure.walk/prewalk #(if (= (symbol "%t") %1) (symbol "#t") %1)
+        (clojure.walk/prewalk #(if (= (symbol "%F") %1) (symbol "#F") %1)
+          (clojure.walk/prewalk #(if (= (symbol "%f") %1) (symbol "#f") %1) safe-symbols
+          )
+        )
+      )
+    )
   )
   
   ; user=> (igual? 'if 'IF)
@@ -843,7 +870,7 @@
   "Devuelve la lectura de un elemento de Scheme desde la terminal/consola."
     [x]
     (cond
-      (empty? x) (symbol (leer-entrada))
+      (empty? x) (read-string (leer-entrada))
       (= 1 (count x)) (symbol ";ERROR: read: Use of I/O ports not implemented")
       :else (symbol "(;ERROR: Wrong number of args given #<primitive-procedure read>)")
     )
@@ -1049,7 +1076,6 @@
 
 
   (defn function-def [arg-list env]
-    (println arg-list)
     (list (symbol "#<unspecified>") (actualizar-amb env (first (first arg-list)) (concat '(lambda) (list (list (second (first arg-list)))) (rest arg-list) )))
   )
 
@@ -1137,9 +1163,11 @@
   ; (5 (#f #f #t #t))
   ; user=> (evaluar-or (list 'or (symbol "#f")) (list (symbol "#f") (symbol "#f") (symbol "#t") (symbol "#t")))
   ; (#f (#f #f #t #t))
+
+  ; (str (first (list (cons (first (list 'or)) (list (symbol "#f") (symbol "#f") (symbol "#t") (symbol "#t"))))))
   (defn evaluar-or
   "Evalua una expresion `or`.  Devuelve una lista con el resultado y un ambiente."
-  [test]
+  [condition ]
   )
   
   ; user=> (evaluar-set! '(set! x 1) '(x 0))
