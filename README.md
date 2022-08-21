@@ -1,18 +1,12 @@
-# tp_final
+# Final project for "Lenguajes Formales"
 
-FIXME: description
+Scheme interpreter written in Clojure
+
 
 ## Installation
 
-Download from http://example.com/FIXME.
+TODO: Add installation
 
 ## Usage
 
-FIXME: explanation
-
-    $ java -jar tp_final-0.1.0-standalone.jar [args]
-
-## About
-
-Project made for "Lenguajes Formales" course in University of Buenos Aires.
-The project consist in a Scheme interpreter written in Clojure
+TODO: Add usage
